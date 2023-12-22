@@ -1,31 +1,30 @@
-import { useParams, useNavigate } from "react-router-dom"
+import { useParams } from "react-router-dom"
+import { ProductContext } from "../Contexts/ProductContext"
+
+
+import { useContext } from "react"
 
 const ShowProduct = () => {
-
-    // const { id, slug } = useParams()
     const myParams = useParams()
 
-    const navigate = useNavigate()
+    const { products } = useContext(ProductContext)
+    const myProduct = products.find(product => product.id === +myParams.id)
+   
+
+
+  
     console.log(myParams)
 
-    
-    if (+myParams.id === 404) {
-        return (
-            <h1>Page Not found </h1>
+    return (
+            <>
+            <h1>{myProduct.label}</h1>
+            <button className="btn btn-success">{myProduct.price}</button>
+            </>
+           
         )
     }
 
-    const redirectToHome = () => {
-        navigate("/")
-  }
-  return (
-      <>
-          <h1>Hello im a product</h1>
-          <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur, aut?</p>
+  
 
-          <button className="btn btn-danger" onClick={redirectToHome}>Redirect</button>
-    </>
-  )
-}
 
 export default ShowProduct

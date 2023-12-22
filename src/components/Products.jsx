@@ -1,9 +1,14 @@
 import Counter from "./Counter";
 import Product from "./Product";
 import { v4 as uuid } from "uuid";
-import { useState } from "react";
+import { useState, useContext } from "react";
+
+import { ProductContext } from "../Contexts/ProductContext";
 
 function Products() {
+
+  const { products, addProduct } = useContext(ProductContext)
+
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
 
@@ -11,23 +16,7 @@ function Products() {
 
   let showList = true;
 
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      label: "Iphone 14",
-      price: 3000,
-    },
-    {
-      id: 2,
-      label: "Samsung",
-      price: 2000,
-    },
-    {
-      id: 3,
-      label: "poco",
-      price: 1000,
-    },
-  ]);
+  
 
   const titleInput = (e) => {
     if(e.target.value === "") {
@@ -53,18 +42,12 @@ function Products() {
       label: title,
       price,
     };
-    setProducts([...products, myProduct]);
+    addProduct(myProduct)
+   
     setTitle("");
     setPrice(0);
   };
 
-  const deleteProduct = (id) => {
-    let myList = products.filter((product) => product.id !== id);
-    setProducts((prev) => {
-      console.log(prev);
-      return myList;
-    });
-  };
   return (
     <>
       <h1>{title}</h1>
@@ -105,7 +88,7 @@ function Products() {
         <div>
           {products.map((product, index) => (
             <div key={index}>
-              <Product id={product.id} onDeleteProduct={deleteProduct}>
+              <Product id={product.id} >
                 <p>Lorem ipsum dolor sit.</p>
                 <div className="card-body">
                   <h4 className="card-title">{product.label}</h4>

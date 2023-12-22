@@ -9,17 +9,21 @@ import ShowProduct from "./components/ShowProduct";
 // React Router
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import { ProductProvider } from "./Contexts/ProductContext";
+
 function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Products />} />
-          <Route path="/product/:id/:slug" element={<ShowProduct />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-        </Routes>
+        <ProductProvider>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Products />} />
+            <Route path="/product/:id" element={<ShowProduct />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Routes>
+        </ProductProvider>
       </Router>
     </>
   );
