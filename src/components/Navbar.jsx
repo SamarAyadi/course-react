@@ -1,29 +1,37 @@
+import { NavLink , Link } from "react-router-dom"
+import { useContext } from "react"
 
-
+import { ProductContext } from "../Contexts/ProductContext"
 function Navbar() {
+
+const { products, title } = useContext(ProductContext)
+
+
+
   return (
     <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
       <div className="container-fluid">
-    <a className="navbar-brand" href="df">Navbar</a>
+        <Link className="navbar-brand" to="/">{title}</Link>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse" id="navbarColor01">
       <ul className="navbar-nav me-auto">
         <li className="nav-item">
-          <a className="nav-link active" href="df">Home
+          <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` }  to="/">Home ({products.length})
             <span className="visually-hidden">(current)</span>
-          </a>
+          </NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="df">Features</a>
+          <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` } to="/about">About</NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="df">Pricing</a>
+          <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` } to="/contact">Contact</NavLink>
+            </li>
+            <li className="nav-item">
+          <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` } to="/blog">Blog</NavLink>
         </li>
-        <li className="nav-item">
-          <a className="nav-link" href="df">About</a>
-        </li>
+       
        
       </ul>
     
