@@ -27,6 +27,9 @@ const { products, title } = useContext(ProductContext)
         </li>
         <li className="nav-item">
           <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` } to="/contact">Contact</NavLink>
+            </li>
+            <li className="nav-item">
+          <NavLink className={(navData) => `nav-link ${navData.isActive ? "active" : ""}` } to="/blog">Blog</NavLink>
         </li>
        
        

@@ -1,0 +1,9 @@
+{
+  "articles": [
+    {
+      "title": "learn angular",
+      "description": "Learn how to create angular",
+      "id": 1
+    }
+  ]
+}

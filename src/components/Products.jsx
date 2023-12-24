@@ -1,37 +1,33 @@
 import Counter from "./Counter";
 import Product from "./Product";
 import { v4 as uuid } from "uuid";
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 
 import { ProductContext } from "../Contexts/ProductContext";
 
 function Products() {
+  const title = useRef("");
+  const price = useRef(0);
 
-  const { products, addProduct } = useContext(ProductContext)
-
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState("");
+  const { products, addProduct } = useContext(ProductContext);
 
   const [message, setMessage] = useState("");
 
-  let showList = true;
-
-  
-
   const titleInput = (e) => {
-    if(e.target.value === "") {
+    const inputValue = e.target.value;
+    title.current = inputValue;
+
+    if (inputValue === "") {
       setMessage("Title is Required !");
-    }else if(e.target.value.trim().length < 3) {
-      setMessage("Please tape more than 3 caracters");
-    }
-    else {
+    } else if (inputValue.trim().length < 3) {
+      setMessage("Please type more than 3 characters");
+    } else {
       setMessage(null);
-      setTitle(e.target.value);
     }
   };
 
   const priceInput = (e) => {
-    setPrice(e.target.value);
+    // Handle price input if needed
   };
 
   const submitForm = (e) => {
@@ -39,41 +35,42 @@ function Products() {
 
     let myProduct = {
       id: uuid(),
-      label: title,
-      price,
+      label: title.current,
+      price: parseFloat(price.current) || 0,
     };
-    addProduct(myProduct)
-   
-    setTitle("");
-    setPrice(0);
+
+    console.log(myProduct);
+    addProduct(myProduct);
   };
 
   return (
     <>
-      <h1>{title}</h1>
+      <h1>Product Form</h1>
       <form onSubmit={submitForm}>
         <div className="form-group my-2">
-          <label htmlFor="" className="form-label">
+          <label htmlFor="title" className="form-label">
             Title
           </label>
           <input
-            defaultValue={title}
+            id="title"
+            ref={title}
             onChange={titleInput}
             type="text"
             className="form-control"
           />
 
           {message && (
-            <div className=" alert alert-danger">{message}</div>
+            <div className="alert alert-danger">{message}</div>
           )}
         </div>
 
         <div className="form-group my-2">
-          <label htmlFor="" className="form-label">
+          <label htmlFor="price" className="form-label">
             Price
           </label>
           <input
-            defaultValue={price}
+            id="price"
+            ref={price}
             onChange={priceInput}
             type="text"
             className="form-control"
@@ -82,25 +79,22 @@ function Products() {
 
         <button className="btn btn-info my-2 mb-2">Save</button>
       </form>
-      {title} --------- {price}
-      <Counter />
-      {showList && (
-        <div>
-          {products.map((product, index) => (
-            <div key={index}>
-              <Product id={product.id} >
-                <p>Lorem ipsum dolor sit.</p>
-                <div className="card-body">
-                  <h4 className="card-title">{product.label}</h4>
-                  <p className="card-text">
-                    <button className="btn btn-danger">{product.price}</button>
-                  </p>
-                </div>
-              </Product>
+
+      {products.map((product) => (
+        <div key={product.id}>
+          <Product id={product.id}>
+            <p>Lorem ipsum dolor sit.</p>
+            <div className="card-body">
+              <h4 className="card-title">{product.label}</h4>
+              <p className="card-text">
+                <button className="btn btn-danger">{product.price}</button>
+              </p>
             </div>
-          ))}
+          </Product>
         </div>
-      )}
+      ))}
+
+      <Counter />
     </>
   );
 }
